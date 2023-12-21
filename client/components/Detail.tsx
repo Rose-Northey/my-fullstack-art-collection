@@ -10,15 +10,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 export default function Detail() {
   const id = useParams().id;
   const navigate = useNavigate();
+  const [editing, setEditing] = useState(false)
 
 
   // Always call useQuery, and conditionally render based on the result
-  const isEditingQuery = useQuery({ queryKey: ['editing'], queryFn: refreshIsEditingQuery });
-  const { data: artDetail, isLoading, isError } = useQuery({
+   const { data: artDetail, isLoading, isError } = useQuery({
     queryKey: ['art', id],
     queryFn: () => getArtById(id),
   });
-  const isEditing= isEditingQuery.data
 
   if (isError) {
     return <p>hmm, not sure what happened</p>;
@@ -28,41 +27,24 @@ export default function Detail() {
     return <p>drafting artworks...</p>;
   }
 
-  const queryClient = useQueryClient();
-  const isEditingMutation = useMutation({
-    mutationFn: isEditingChange,
-    onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ['editing'] });
-    },
-  });
-
-  function refreshIsEditingQuery(): boolean {
-    return isEditing ?? false;
-  }
-
-  function isEditingChange(): boolean {
-    return !isEditing;
-  }
-
-
   function navigateHome(event) {
     event.preventDefault();
     navigate('/');
   }
 
   function handleEditClick(event: React.MouseEvent<HTMLElement>) {
-    isEditingMutation.mutate();
+    setEditing(!editing)
   }
 
   return(
     <>
     <div className="fill">
       <div className="vflex detail">
-        <div className={isEditing? 'visible vflex center': 'hidden vflex center'}>
-        <Edit />
+      <div className={editing? 'visible vflex center': 'hidden vflex center'}>
+        <Edit setEditing={setEditing}/>
 
         </div>
-        <div className = {isEditing?'hidden vflex center':'visible vflex center detailText'} >
+        <div className = {editing?'hidden vflex center':'visible vflex center detailText'} >
           <h2>{artDetail.name}</h2>
           <p>{artDetail.description}</p>  
           <div className='hflex infoLine'>
@@ -71,7 +53,7 @@ export default function Detail() {
           </div>
         </div>
         <br/>
-        <button onClick={handleEditClick}>{isEditing? 'Stop editing':'Edit details'}</button>
+        <button onClick={handleEditClick}>{editing? 'Stop editing':'Edit details'}</button>
         <img src={`${artDetail.imageUrl}`} alt={artDetail.alt}/>
         
       </div>
