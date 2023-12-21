@@ -143,6 +143,6 @@ button:active {
 .delete{
   padding:0.2rem;
   margin:0.2rem;
-  background-color: chocolate;
+  background-color: rgba(210, 105, 30, 0.401);
   text-decoration: none;
 }
