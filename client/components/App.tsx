@@ -45,7 +45,7 @@ export default function App() {
     deleteArtMutation.mutate(id)
   }
 
-  
+   
   return (
     <>
       <h2>Artwork List</h2>
