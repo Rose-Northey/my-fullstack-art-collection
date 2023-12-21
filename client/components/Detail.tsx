@@ -1,7 +1,7 @@
 import {useQuery} from '@tanstack/react-query'
 import { getArtById} from "../apis/apiClient"
 import {Link, useParams, useNavigate} from 'react-router-dom'
-import { useState } from 'react'
+import { useState} from 'react'
 import Edit from './Edit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 

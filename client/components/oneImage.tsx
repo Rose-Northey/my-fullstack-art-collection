@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef} from "react"
 import { uploadArt } from "../apis/apiClient"
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { renderMatches } from 'react-router-dom'
@@ -15,6 +15,7 @@ export default function OneImage({isEditing}) {
 
   const queryClient = useQueryClient()
   const formData = new FormData()
+  const fileReference = useRef(null)
 
   const uploadArtMutation = useMutation({ 
     mutationFn: uploadArt, 
@@ -27,6 +28,11 @@ export default function OneImage({isEditing}) {
       setFile(null)
       isEditing(false)
       queryClient.invalidateQueries({queryKey:['art']})
+
+          // Reset file input value
+          if (fileReference.current) {
+            fileReference.current.value = "";
+          }
     }
   })
 
@@ -98,7 +104,6 @@ export default function OneImage({isEditing}) {
           name="medium"
           value={medium}
           onChange={handleMediumChange}
-          // value={formData.medium}
           
         />
         
@@ -110,6 +115,7 @@ export default function OneImage({isEditing}) {
         <input
           type="file"
           name='file'
+          ref={fileReference}
           onChange={handleFileChange}
           required
         />
