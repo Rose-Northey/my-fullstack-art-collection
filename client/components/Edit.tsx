@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState} from 'react'
 import { editDetailsPatch, getArtById } from '../apis/apiClient'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
@@ -25,7 +25,6 @@ export default function Edit({setEditing}) {
   const editDetailsMutation = useMutation({
     mutationFn: editDetailsPatch,
     onSuccess: async()=>{
-      console.log("invalidate queries loop for edit")
       queryClient.invalidateQueries({queryKey:['art', id]})
     }
   })

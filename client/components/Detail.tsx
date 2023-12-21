@@ -1,7 +1,7 @@
 import {useQuery} from '@tanstack/react-query'
 import { getArtById} from "../apis/apiClient"
 import {Link, useParams, useNavigate} from 'react-router-dom'
-import { useState } from 'react'
+import { useState} from 'react'
 import Edit from './Edit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -53,7 +53,7 @@ export default function Detail() {
           </div>
         </div>
         <br/>
-        <button onClick={handleEditClick}>{editing? 'Stop editing':'Edit details'}</button>
+        <button className={editing? 'hidden':''} onClick={handleEditClick}>Edit details</button>
         <img src={`${artDetail.imageUrl}`} alt={artDetail.alt}/>
         
       </div>
