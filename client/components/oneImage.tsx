@@ -25,14 +25,10 @@ export default function OneImage({isEditing}) {
       setMedium("")
       setOwner("")
       setAlt("")
-      setFile(null)
+      fileReference.current.value = ""
       isEditing(false)
       queryClient.invalidateQueries({queryKey:['art']})
-
-          // Reset file input value
-          if (fileReference.current) {
-            fileReference.current.value = "";
-          }
+      
     }
   })
 
