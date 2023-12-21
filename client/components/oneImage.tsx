@@ -5,13 +5,13 @@ import { renderMatches } from 'react-router-dom'
 import { useParams } from "react-router-dom"
 
 export default function OneImage({isEditing}) {
-  const [file, setFile] = useState()
-  const [name, setName]= useState("")
-  const [description, setDescription]= useState("")
-  const [medium, setMedium]= useState("")
-  const [owner, setOwner]= useState("")
-  const [alt, setAlt]= useState("")
-  const id = useParams().id
+  const [file, setFile] = useState<string|Blob|undefined>(undefined)
+  const [name, setName]= useState<string>("")
+  const [description, setDescription]= useState<string>("")
+  const [medium, setMedium]= useState<string>("")
+  const [owner, setOwner]= useState<string>("")
+  const [alt, setAlt]= useState<string>("")
+  const id:number = Number(useParams<{id:string}>().id)
 
   const queryClient = useQueryClient()
   const formData = new FormData()
@@ -34,9 +34,9 @@ export default function OneImage({isEditing}) {
 
   // ()=>{uploadArt(formData)}
 
-  const uploadFile = async (event: React.ChangeEvent<HTMLFormElement>) => {
+  const uploadFile = async (event: React.FormEvent<Element>) => {
     event.preventDefault()
-    formData.append('file', file)
+    formData.append('file', file!)
     formData.append("name", name);
     formData.append("description", description);
     formData.append("medium", medium);
@@ -49,22 +49,22 @@ export default function OneImage({isEditing}) {
     }
   }
 
-  const handleNameChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)
   }
-  const handleDescriptionChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(event.target.value)
   }
-  const handleMediumChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleMediumChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMedium(event.target.value)
   }
-  const handleFileChange = (event: React.ChangeEvent<HTMLFormElement>) => {
-    setFile(event.target.files[0])
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(event.target.files?.[0])
   }
-  const handleOwnerChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleOwnerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setOwner(event.target.value)
   }
-  const handleAltChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleAltChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAlt(event.target.value)
   }
 

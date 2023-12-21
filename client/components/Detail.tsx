@@ -8,12 +8,11 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 
 export default function Detail() {
-  const id = useParams().id;
+  const id = Number(useParams().id);
   const navigate = useNavigate();
   const [editing, setEditing] = useState(false)
 
 
-  // Always call useQuery, and conditionally render based on the result
    const { data: artDetail, isLoading, isError } = useQuery({
     queryKey: ['art', id],
     queryFn: () => getArtById(id),
@@ -27,7 +26,7 @@ export default function Detail() {
     return <p>drafting artworks...</p>;
   }
 
-  function navigateHome(event) {
+  function navigateHome(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
     navigate('/');
   }
