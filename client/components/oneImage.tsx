@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { renderMatches } from 'react-router-dom'
 import { useParams } from "react-router-dom"
 
-export default function OneImage() {
+export default function OneImage({isEditing}) {
   const [file, setFile] = useState()
   const [name, setName]= useState("")
   const [description, setDescription]= useState("")
@@ -19,7 +19,13 @@ export default function OneImage() {
   const uploadArtMutation = useMutation({ 
     mutationFn: uploadArt, 
     onSuccess: async()=>{
-      console.log("invalidate queries loop for add")
+      setName("")
+      setDescription("")
+      setMedium("")
+      setOwner("")
+      setAlt("")
+      setFile(null)
+      isEditing(false)
       queryClient.invalidateQueries({queryKey:['art']})
     }
   })
@@ -69,7 +75,7 @@ export default function OneImage() {
         <input
           type="text"
           name="name"
-          // value=
+          value={name}
           onChange={handleNameChange}
         />
       </label>
@@ -79,7 +85,7 @@ export default function OneImage() {
         Description:
         <textarea
           name="description"
-          // value={formData.description}
+          value={description}
           onChange={handleDescriptionChange}
         />
       </label>
@@ -90,6 +96,7 @@ export default function OneImage() {
         <input
           type="text"
           name="medium"
+          value={medium}
           onChange={handleMediumChange}
           // value={formData.medium}
           
@@ -114,6 +121,7 @@ export default function OneImage() {
         <input
           type="text"
           name="owner"
+          value={owner}
           onChange={handleOwnerChange}
         ></input>
       </label>
@@ -123,6 +131,7 @@ export default function OneImage() {
         <input
           type="text"
           name="owner"
+          value={alt}
           onChange={handleAltChange}
           required
         ></input>

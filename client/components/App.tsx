@@ -19,7 +19,6 @@ export default function App() {
   const deleteArtMutation = useMutation({ 
     mutationFn: deleteArt, 
     onSuccess: async()=>{
-      console.log("invalidate queries loop for art")
       queryClient.invalidateQueries({queryKey:['art']})
     }
   })
@@ -45,35 +44,34 @@ export default function App() {
     deleteArtMutation.mutate(id)
   }
 
+
   return (
     <>
       <h2>Artwork List</h2>
       <div className="collection hflex">
-        {art?.map((item) => {
+        {art?.map((artItem) => {
           return (
-            <>
-              <div className = 'vflex artTile'>
-                <Link to={`/${item.id}`} key={item.id}>
+              <div key={artItem.id} className = 'vflex artTile'>
+                <Link to={`/${artItem.id}`} key={artItem.id}>
                   <div className="vflex upperArtTile">
-                    <h3>{item.name}</h3>
-                    <img src={item.imageUrl} alt={item.alt} />
+                    <h3>{artItem.name}</h3>
+                    <img src={artItem.imageUrl} alt={artItem.alt} />
                   </div>
                 </Link>
                 <div className="hflex center deleteDiv">
-                  <button onClick={()=>{handleDeleteClick(item.id)}} className="delete">
+                  <button onClick={()=>{handleDeleteClick(artItem.id)}} className="delete">
                     X
                   </button>
                 </div>
               </div>
-            </>
           )
         })}
       </div>
       <button onClick={handleClick} className={!editing ? 'visible' : 'hidden'}>
         Add New Image
       </button>
-      <div className={editing ? 'visible' : 'hidden'}>
-        <OneImage />
+      <div className={editing? 'visible' : 'hidden'}>
+        <OneImage isEditing= {isEditing}/>
       </div>
     </>
   )

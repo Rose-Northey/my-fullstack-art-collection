@@ -25,7 +25,6 @@ export default function Edit({setEditing}) {
   const editDetailsMutation = useMutation({
     mutationFn: editDetailsPatch,
     onSuccess: async()=>{
-      console.log("invalidate queries loop for edit")
       queryClient.invalidateQueries({queryKey:['art', id]})
     }
   })
