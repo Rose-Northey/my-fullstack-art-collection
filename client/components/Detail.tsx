@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 
 export default function Detail() {
-  const id = useParams().id;
+  const id = Number(useParams().id);
   const navigate = useNavigate();
   const [editing, setEditing] = useState(false)
 
@@ -27,7 +27,7 @@ export default function Detail() {
     return <p>drafting artworks...</p>;
   }
 
-  function navigateHome(event) {
+  function navigateHome(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
     navigate('/');
   }
