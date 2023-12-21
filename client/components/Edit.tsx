@@ -13,11 +13,11 @@ export default function Edit({setEditing}) {
     isError,
   } = useQuery({ queryKey: ['art', id], queryFn: () => getArtById(Number(id)) })
 
-  const [newName, setNewName] = useState(artDetail?.name || '')
-  const [newDescription, setNewDescription] = useState(artDetail?.description ||'')
-  const [newMedium, setNewMedium] = useState(artDetail?.medium ||'')
-  const [newOwner, setNewOwner] = useState(artDetail?.owner||'')
-  const [newAlt, setNewAlt] = useState(artDetail?.alt||'')
+  const [newName, setNewName] = useState<string>(artDetail?.name || '')
+  const [newDescription, setNewDescription] = useState<string>(artDetail?.description ||'')
+  const [newMedium, setNewMedium] = useState<string>(artDetail?.medium ||'')
+  const [newOwner, setNewOwner] = useState<string>(artDetail?.owner||'')
+  const [newAlt, setNewAlt] = useState<string>(artDetail?.alt||'')
 
   const queryClient = useQueryClient()
   let newDetails = { name: '', description: '', medium: '', owner: '', alt:'' }
@@ -54,7 +54,7 @@ export default function Edit({setEditing}) {
     setNewName(event.target.value)
   }
   const handleNewDescriptionChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setNewDescription(event.target.value)
   }
