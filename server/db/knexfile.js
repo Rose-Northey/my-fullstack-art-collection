@@ -35,12 +35,9 @@ export default {
 
   production: {
     client: 'sqlite3',
-    useNullAsDefault: true,
     connection: {
       filename: '/app/storage/prod.sqlite3',
     },
-    pool: {
-      afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
-    },
+    useNullAsDefault: true,
   },
 }
