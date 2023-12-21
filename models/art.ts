@@ -8,6 +8,8 @@ export interface Art{
   alt: string
 }
 
+
+
 export interface ArtHeading{
   id:number
   name: string

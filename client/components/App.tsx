@@ -1,10 +1,11 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, QueryKey} from '@tanstack/react-query'
 import { getAllArtHeadings } from '../apis/apiClient'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import OneImage from './oneImage'
 import { deleteArt } from '../apis/apiClient'
+import {ArtHeading} from '../../models/art'
 
 export default function App() {
   const [editing, isEditing] = useState(false)
@@ -13,7 +14,7 @@ export default function App() {
     isLoading,
     isError,
     error,
-  } = useQuery(['art'], getAllArtHeadings, {})  
+  } = useQuery<ArtHeading[]>(['art'], getAllArtHeadings, {})  
   
   const queryClient = useQueryClient()
   const deleteArtMutation = useMutation({ 
@@ -40,16 +41,16 @@ export default function App() {
     isEditing(!editing)
   }
 
-  function handleDeleteClick(id) {
+  function handleDeleteClick(id:number) {
     deleteArtMutation.mutate(id)
   }
 
-
+  
   return (
     <>
       <h2>Artwork List</h2>
       <div className="collection hflex">
-        {art?.map((artItem) => {
+        {art?.map((artItem:ArtHeading) => {
           return (
             <div key={artItem.id} className = 'vflex artTile'>
               <Link to={`/${artItem.id}`} key={artItem.id}>
