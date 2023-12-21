@@ -51,19 +51,19 @@ export default function App() {
       <div className="collection hflex">
         {art?.map((artItem) => {
           return (
-              <div key={artItem.id} className = 'vflex artTile'>
-                <Link to={`/${artItem.id}`} key={artItem.id}>
-                  <div className="vflex upperArtTile">
-                    <h3>{artItem.name}</h3>
-                    <img src={artItem.imageUrl} alt={artItem.alt} />
-                  </div>
-                </Link>
-                <div className="hflex center deleteDiv">
-                  <button onClick={()=>{handleDeleteClick(artItem.id)}} className="delete">
-                    X
-                  </button>
+            <div key={artItem.id} className = 'vflex artTile'>
+              <Link to={`/${artItem.id}`} key={artItem.id}>
+                <div className="vflex upperArtTile">
+                  <h3>{artItem.name}</h3>
+                  <img src={artItem.imageUrl} alt={artItem.alt} />
                 </div>
+              </Link>
+              <div className="hflex center deleteDiv">
+                <button onClick={()=>{handleDeleteClick(artItem.id)}} className="delete">
+                  X
+                </button>
               </div>
+            </div>
           )
         })}
       </div>
