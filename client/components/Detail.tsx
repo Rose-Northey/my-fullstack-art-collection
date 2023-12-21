@@ -3,45 +3,66 @@ import { getArtById} from "../apis/apiClient"
 import {Link, useParams, useNavigate} from 'react-router-dom'
 import { useState } from 'react'
 import Edit from './Edit'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-//i want isEditing to change on all of the pages so that I can change it on the Edit component and it will close the editing form in the Detail page. 
 
-// i need to set up a query in my 
 
-export default function Detail (){
-  const id = useParams().id
-  const navigate = useNavigate() 
-  const [editing, setEditing] = useState(false)
-  
+export default function Detail() {
+  const id = useParams().id;
+  const navigate = useNavigate();
 
-  const {data: artDetail, isLoading, isError} = useQuery({queryKey:['art',id], queryFn: ()=>getArtById(id),})
-  if (isError){
-    return <p>hmm, not sure what happened</p>
-  }
-  if(!artDetail || isLoading){
-    return <p>drafting artworks...</p>
-  }
 
-  function navigateHome(event){
-    event.preventDefault()
-    navigate('/')
+  // Always call useQuery, and conditionally render based on the result
+  const isEditingQuery = useQuery({ queryKey: ['editing'], queryFn: refreshIsEditingQuery });
+  const { data: artDetail, isLoading, isError } = useQuery({
+    queryKey: ['art', id],
+    queryFn: () => getArtById(id),
+  });
+  const isEditing= isEditingQuery.data
+
+  if (isError) {
+    return <p>hmm, not sure what happened</p>;
   }
 
-
- 
-  function handleEditClick(event: React.MouseEvent<HTMLElement>){
- 
-    setEditing(!editing)
+  if (!artDetail || isLoading) {
+    return <p>drafting artworks...</p>;
   }
-  
+
+  const queryClient = useQueryClient();
+  const isEditingMutation = useMutation({
+    mutationFn: isEditingChange,
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['editing'] });
+    },
+  });
+
+  function refreshIsEditingQuery(): boolean {
+    return isEditing ?? false;
+  }
+
+  function isEditingChange(): boolean {
+    return !isEditing;
+  }
+
+
+  function navigateHome(event) {
+    event.preventDefault();
+    navigate('/');
+  }
+
+  function handleEditClick(event: React.MouseEvent<HTMLElement>) {
+    isEditingMutation.mutate();
+  }
+
   return(
     <>
     <div className="fill">
       <div className="vflex detail">
-        <div className={editing? 'visible vflex center': 'hidden vflex center'}>
-        <Edit setEditing={setEditing}/>
+        <div className={isEditing? 'visible vflex center': 'hidden vflex center'}>
+        <Edit />
+
         </div>
-        <div className = {editing?'hidden vflex center':'visible vflex center detailText'} >
+        <div className = {isEditing?'hidden vflex center':'visible vflex center detailText'} >
           <h2>{artDetail.name}</h2>
           <p>{artDetail.description}</p>  
           <div className='hflex infoLine'>
@@ -50,7 +71,7 @@ export default function Detail (){
           </div>
         </div>
         <br/>
-        <button onClick={handleEditClick}>{editing? 'Stop editing':'Edit details'}</button>
+        <button onClick={handleEditClick}>{isEditing? 'Stop editing':'Edit details'}</button>
         <img src={`${artDetail.imageUrl}`} alt={artDetail.alt}/>
         
       </div>
