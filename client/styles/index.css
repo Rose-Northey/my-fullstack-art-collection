@@ -25,8 +25,13 @@ img{
 .artTile{
   margin:0.5rem;
   padding: 0.3rem;
+}
+
+
+.upperArtTile, .deleteDiv{
   background-color: bisque;
 }
+
 
 .detail{
   width: 60%;
@@ -100,4 +105,44 @@ label{
 .center{
   justify-content: center;
   align-items: center;
+}
+
+button{
+display: inline-block;
+    border: none;
+    padding: 1rem 2rem;
+    margin: 0;
+    text-decoration: none;
+    background: #3a5a81;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:hover,
+button:focus {
+    background: #97bff0;
+    color:black;
+}
+
+button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+button:active {
+    transform: scale(0.99);
+}
+
+.delete{
+  padding:0.2rem;
+  margin:0.2rem;
+  background-color: chocolate;
+  text-decoration: none;
 }

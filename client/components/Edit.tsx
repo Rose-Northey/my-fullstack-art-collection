@@ -4,7 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
-export default function Edit() {
+
+export default function Edit({setEditing}) {
   const id = useParams().id
   const {
     data: artDetail,
@@ -44,6 +45,7 @@ export default function Edit() {
     }
     try {
       editDetailsMutation.mutate(newDetailsAndId)
+      setEditing(false)
     } catch (error) {
       console.error('An error occurred during uploading:', error)
     }

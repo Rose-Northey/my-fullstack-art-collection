@@ -11,6 +11,7 @@ export default function Detail() {
   const id = useParams().id;
   const navigate = useNavigate();
 
+
   // Always call useQuery, and conditionally render based on the result
   const isEditingQuery = useQuery({ queryKey: ['editing'], queryFn: refreshIsEditingQuery });
   const { data: artDetail, isLoading, isError } = useQuery({
@@ -43,6 +44,7 @@ export default function Detail() {
     return !isEditing;
   }
 
+
   function navigateHome(event) {
     event.preventDefault();
     navigate('/');
@@ -58,6 +60,7 @@ export default function Detail() {
       <div className="vflex detail">
         <div className={isEditing? 'visible vflex center': 'hidden vflex center'}>
         <Edit />
+
         </div>
         <div className = {isEditing?'hidden vflex center':'visible vflex center detailText'} >
           <h2>{artDetail.name}</h2>

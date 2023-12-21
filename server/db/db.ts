@@ -55,3 +55,8 @@ export async function editArtDescription(newArtInfo:PatchArtInfo, id:number){
   return result
 }
 
+export async function deleteArtById(id:number){
+  const result = await connection('artworks')
+  .where({id}).delete()
+  return result
+}

@@ -14,10 +14,6 @@ export async function getArtById(id:number){
   return artDetails.body
 }
 
-export async function postNewArt(){
-  console.log('postNewArt has run')
-  await request.get('/api/v1/artworks')
-}
 
 export async function uploadArt(formData){
   console.log('uploadArt has run')
@@ -35,4 +31,9 @@ export async function editDetailsPatch(newDetailsAndId:Art.NewDetailsAndId){
   .send(newDetails)
   console.log("this is a thing")
   return response
+}
+
+export async function deleteArt(id){
+  const response = await request
+  .delete(`/api/v1/artworks/${id}/delete`)
 }

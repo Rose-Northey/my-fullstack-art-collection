@@ -94,6 +94,13 @@ router.patch('/:id/edit', async(req,res)=>{
   res.json({})
 })
 
+// Delete artwork based on id
+router.delete('/:id/delete', async(req,res)=>{
+  const id = req.params.id
+  await db.deleteArtById(id)
+  res.json({})
+})
+
 
 
 export default router;
