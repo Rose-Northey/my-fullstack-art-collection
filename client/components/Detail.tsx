@@ -13,7 +13,6 @@ export default function Detail() {
   const [editing, setEditing] = useState(false)
 
 
-  // Always call useQuery, and conditionally render based on the result
    const { data: artDetail, isLoading, isError } = useQuery({
     queryKey: ['art', id],
     queryFn: () => getArtById(id),
