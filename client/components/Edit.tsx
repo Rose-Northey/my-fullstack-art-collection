@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import React, { useState} from 'react'
 import { editDetailsPatch, getArtById } from '../apis/apiClient'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
@@ -13,11 +13,11 @@ export default function Edit({setEditing}) {
     isError,
   } = useQuery({ queryKey: ['art', id], queryFn: () => getArtById(Number(id)) })
 
-  const [newName, setNewName] = useState(artDetail.name)
-  const [newDescription, setNewDescription] = useState(artDetail.description)
-  const [newMedium, setNewMedium] = useState(artDetail.medium)
-  const [newOwner, setNewOwner] = useState(artDetail.owner)
-  const [newAlt, setNewAlt] = useState(artDetail.alt)
+  const [newName, setNewName] = useState<string>(artDetail?.name || '')
+  const [newDescription, setNewDescription] = useState<string>(artDetail?.description ||'')
+  const [newMedium, setNewMedium] = useState<string>(artDetail?.medium ||'')
+  const [newOwner, setNewOwner] = useState<string>(artDetail?.owner||'')
+  const [newAlt, setNewAlt] = useState<string>(artDetail?.alt||'')
 
   const queryClient = useQueryClient()
   let newDetails = { name: '', description: '', medium: '', owner: '', alt:'' }
@@ -29,7 +29,7 @@ export default function Edit({setEditing}) {
     }
   })
 
-  const editDetails = async (event: React.ChangeEvent<HTMLFormElement>) => {
+  const editDetails = async (event: React.FormEvent<Element>) => {
     event.preventDefault()
     newDetails = {
       name: newName,
@@ -50,23 +50,23 @@ export default function Edit({setEditing}) {
     }
   }
 
-  const handleNewNameChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleNewNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewName(event.target.value)
   }
   const handleNewDescriptionChange = (
-    event: React.ChangeEvent<HTMLFormElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setNewDescription(event.target.value)
   }
-  const handleNewMediumChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleNewMediumChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewMedium(event.target.value)
   }
 
-  const handleNewOwnerChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleNewOwnerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewOwner(event.target.value)
   }
 
-  const handleNewAltChange = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleNewAltChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewAlt(event.target.value)
   }
 
@@ -110,7 +110,6 @@ export default function Edit({setEditing}) {
               name="newMedium"
               value={newMedium}
               onChange={handleNewMediumChange}
-              // value={formData.newMedium}
             />
           </label>
           <br />
