@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 
 
 export default function Edit({setEditing}) {
-  const id = useParams().id
+  const id = Number(useParams().id)
   const {
     data: artDetail,
     isLoading,
